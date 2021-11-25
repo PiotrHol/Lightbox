@@ -18,11 +18,11 @@ module.exports = {
             filename: "index.html",
             template: "./index.html",
         }),
-        // new Copy({
-        //    patterns: [
-        //        {from: "assets", to: "assets"}
-        //    ],
-        // }),
+        new Copy({
+           patterns: [
+               {from: "assets", to: "assets"}
+           ],
+        }),
         autoprefixer,
         new MiniCSS({
             filename: "css/main.css",
