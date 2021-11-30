@@ -82,6 +82,14 @@ body {
           font-size: 26px;
           padding: 5px;
 
+          @media (max-width: 900px) {
+            font-size: 22px;
+          }
+
+          @media (max-width: 600px) {
+            font-size: 18px;
+          }
+
           &:first-child, &:last-child {
             cursor: pointer;
           }
