@@ -16,7 +16,7 @@ lightboxAllImages.forEach((image, index) => {
        lightboxImage.setAttribute("src", image.getAttribute("src"));
        lightboxModal.style.display = "flex";
        lightboxActualNumber.innerText = `${index + 1}`;
-       lightboxAllNumber.innerText = `${lightboxAllImages.length - 1}`;
+       lightboxAllNumber.innerText = `${lightboxAllImages.length}`;
     });
 });
 
@@ -36,7 +36,7 @@ lightboxPrevBtn.addEventListener("click", () => {
 
 lightboxNextBtn.addEventListener("click", () => {
    let actualImage = parseInt(lightboxActualNumber.innerText);
-   if (actualImage < lightboxAllImages.length - 1) {
+   if (actualImage < lightboxAllImages.length) {
        actualImage++;
        setAnotherImage(actualImage);
    }
