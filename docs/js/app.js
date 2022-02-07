@@ -96,13 +96,13 @@ module.exports = __webpack_require__(2);
 /* 1 */
 /***/ (function(module, exports) {
 
-var lightboxAllImages = document.querySelectorAll(".lightbox--gallery__image img");
-var lightboxModal = document.querySelector(".lightbox--modal");
-var lightboxImage = document.querySelector(".lightbox--modal__image");
-var lightboxPrevBtn = document.getElementById("lightbox--modal__prev");
-var lightboxNextBtn = document.getElementById("lightbox--modal__next");
-var lightboxActualNumber = document.getElementById("lightbox--modal__number");
-var lightboxAllNumber = document.getElementById("lightbox--modal__numberALl");
+var lightboxAllImages = document.querySelectorAll(".lightbox__gallery-image img");
+var lightboxModal = document.querySelector(".lightbox__modal");
+var lightboxImage = document.querySelector(".lightbox__modal-image");
+var lightboxPrevBtn = document.getElementById("lightbox__modal-prev");
+var lightboxNextBtn = document.getElementById("lightbox__modal-next");
+var lightboxActualNumber = document.getElementById("lightbox__modal-number");
+var lightboxAllNumber = document.getElementById("lightbox__modal-number-all");
 
 var setAnotherImage = function (image) {
   lightboxImage.setAttribute("src", lightboxAllImages[image - 1].getAttribute("src"));
