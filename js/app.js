@@ -1,10 +1,10 @@
-const lightboxAllImages = document.querySelectorAll(".lightbox--gallery__image img");
-const lightboxModal = document.querySelector(".lightbox--modal");
-const lightboxImage = document.querySelector(".lightbox--modal__image");
-const lightboxPrevBtn = document.getElementById("lightbox--modal__prev");
-const lightboxNextBtn = document.getElementById("lightbox--modal__next");
-const lightboxActualNumber = document.getElementById("lightbox--modal__number");
-const lightboxAllNumber = document.getElementById("lightbox--modal__numberALl");
+const lightboxAllImages = document.querySelectorAll(".lightbox__gallery-image img");
+const lightboxModal = document.querySelector(".lightbox__modal");
+const lightboxImage = document.querySelector(".lightbox__modal-image");
+const lightboxPrevBtn = document.getElementById("lightbox__modal-prev");
+const lightboxNextBtn = document.getElementById("lightbox__modal-next");
+const lightboxActualNumber = document.getElementById("lightbox__modal-number");
+const lightboxAllNumber = document.getElementById("lightbox__modal-number-all");
 
 const setAnotherImage = image => {
     lightboxImage.setAttribute("src", lightboxAllImages[image - 1].getAttribute("src"));
