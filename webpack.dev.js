@@ -1,50 +1,39 @@
-const {merge} = require("webpack-merge");
+const { merge } = require("webpack-merge");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const common = require("./webpack.common.js");
-const path = require("path");
 
 module.exports = merge(common, {
-    mode: "development",
-    devtool: "source-map",
-    devServer: {
-        contentBase: path.join(__dirname, "dist"),
-        publicPath: "/",
-        compress: true,
-        hot: true,
-        port: 3001,
-        open: true
-    },
-    module: {
-        rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: "babel-loader"
+  mode: "development",
+  devtool: "inline-source-map",
+  devServer: {
+    static: "./dist",
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      title: "Lightbox example",
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.scss$/,
+        exclude: /node_modules/,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              sourceMap: true,
             },
-            {
-                test: /\.scss$/,
-                exclude: /node_modules/,
-                use: [
-                    "style-loader",
-                    {
-                        loader: "css-loader",
-                        options: {
-                            sourceMap: true,
-                        },
-                    },
-                    {
-                        loader: "postcss-loader",
-                        options: {
-                            sourceMap: true,
-                        },
-                    },
-                    {
-                        loader: "sass-loader",
-                        options: {
-                            sourceMap: true,
-                        },
-                    },
-                ],
+          },
+          {
+            loader: "sass-loader",
+            options: {
+              sourceMap: true,
             },
+          },
         ],
-    },
+      },
+    ],
+  },
 });
