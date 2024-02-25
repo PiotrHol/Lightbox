@@ -11,6 +11,7 @@ module.exports = merge(common, {
   plugins: [
     new HtmlWebpackPlugin({
       title: "Lightbox example",
+      template: "docs/index.html",
     }),
   ],
   module: {
