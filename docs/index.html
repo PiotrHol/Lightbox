@@ -4,9 +4,128 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lightbox example</title>
+    <title>Lightbox examples</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,700;1,700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="../dist/lightbox.min.css" />
     <script src="../dist/lightbox.min.js"></script>
+    <style>
+      body {
+        width: 100%;
+        background: #f2f2f2;
+        font-size: 16px;
+        font-family: "Josefin Sans", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 400;
+        font-style: normal;
+        margin: 0;
+        box-sizing: border-box;
+        color: #222;
+        padding: 0 16px;
+      }
+      .container {
+        max-width: 1440px;
+        min-height: calc(100vh - 80px);
+        background: #fff;
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .title-box {
+        background: #e6e6e6;
+        padding: 12px 25px 10px;
+        box-shadow: 1px 1px 4px #b3b3b3;
+        margin: 16px 0;
+        border-radius: 10px;
+      }
+      .header-title {
+        margin: 0;
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .content {
+        padding: 10px 25px;
+      }
+      .content-title {
+        padding-left: 15px;
+        margin: 12px 0;
+        font-size: 18px;
+      }
+      .content-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      .content-gallery-item {
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        position: relative;
+        margin: 16px;
+        border-radius: 8px;
+        box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+      }
+      .content-gallery img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: auto;
+        min-width: 100%;
+        max-width: 110%;
+        height: auto;
+        min-height: 100%;
+        max-height: 110%;
+        transition: 0.5s transform;
+        cursor: pointer;
+      }
+      .content-gallery img:hover {
+        transform: scale(1.1);
+        overflow: hidden;
+      }
+    </style>
   </head>
-  <body></body>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="title-box header-title">Lightbox examples</div>
+      </div>
+      <div class="content">
+        <ul class="content-title">
+          <li>Single image</li>
+        </ul>
+        <div class="content-gallery">
+          <div class="content-gallery-item">
+            <img src="./assets/pic01.jpg" alt="pic01" />
+          </div>
+        </div>
+        <ul class="content-title">
+          <li>Gallery of few images</li>
+        </ul>
+        <div class="content-gallery">
+          <div class="content-gallery-item">
+            <img src="./assets/pic02.jpg" alt="pic02" />
+          </div>
+          <div class="content-gallery-item">
+            <img src="./assets/pic03.jpg" alt="pic03" />
+          </div>
+          <div class="content-gallery-item">
+            <img src="./assets/pic04.jpg" alt="pic04" />
+          </div>
+          <div class="content-gallery-item">
+            <img src="./assets/pic05.jpg" alt="pic05" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </html>
