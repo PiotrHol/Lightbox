@@ -87,10 +87,10 @@
         max-height: 110%;
         transition: 0.5s transform;
         cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
       }
       .content-gallery img:hover {
         transform: scale(1.1);
-        overflow: hidden;
       }
     </style>
   </head>
@@ -103,7 +103,7 @@
         <ul class="content-title">
           <li>Single image</li>
         </ul>
-        <div class="content-gallery">
+        <div class="content-gallery lightbox-container">
           <div class="content-gallery-item">
             <img src="./assets/pic01.jpg" alt="pic01" />
           </div>
@@ -111,7 +111,7 @@
         <ul class="content-title">
           <li>Gallery of few images</li>
         </ul>
-        <div class="content-gallery">
+        <div class="content-gallery lightbox-container">
           <div class="content-gallery-item">
             <img src="./assets/pic02.jpg" alt="pic02" />
           </div>
