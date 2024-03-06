@@ -1,4 +1,5 @@
 const lightboxContainerSelector = ".lightbox-container";
+const lightboxImageSelector = ".lightbox-image";
 
 interface Lightbox {
   init: () => void;
@@ -16,7 +17,14 @@ class LightboxGallery implements Lightbox {
   init() {
     if (!this.isInit) {
       this.isInit = true;
-      console.log("Init gallery");
+      const galleryImages = this.gallerySelector.querySelectorAll(
+        lightboxImageSelector
+      );
+      for (let i = 0; i < galleryImages.length; i++) {
+        galleryImages[i].addEventListener("click", () => {
+          this.addLightboxTemplate();
+        });
+      }
     }
   }
 
