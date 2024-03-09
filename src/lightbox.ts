@@ -7,21 +7,22 @@ interface Lightbox {
 
 class LightboxGallery implements Lightbox {
   private gallerySelector;
-  private isInit;
+  private isInit: boolean;
+  private galleryImages: NodeListOf<HTMLElement>;
 
   constructor(gallerySelector: HTMLElement) {
     this.gallerySelector = gallerySelector;
     this.isInit = false;
+    this.galleryImages = this.gallerySelector.querySelectorAll(
+      lightboxImageSelector
+    );
   }
 
   init() {
     if (!this.isInit) {
       this.isInit = true;
-      const galleryImages = this.gallerySelector.querySelectorAll(
-        lightboxImageSelector
-      );
-      for (let i = 0; i < galleryImages.length; i++) {
-        galleryImages[i].addEventListener("click", () => {
+      for (let i = 0; i < this.galleryImages.length; i++) {
+        this.galleryImages[i].addEventListener("click", () => {
           this.addLightboxTemplate();
         });
       }
