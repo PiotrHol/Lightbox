@@ -93,6 +93,35 @@ class LightboxGallery implements Lightbox {
       lightboxCounterNode?.classList.remove("lightbox-counter-hide");
       clearTimeout(secondTimeoutId);
     }, 300);
+
+    const lightboxCloserNodeElement = document.querySelector(
+      ".lightbox-closer-js"
+    ) as HTMLElement | null;
+    lightboxCloserNodeElement?.addEventListener(
+      "click",
+      (event: MouseEvent) => {
+        const lightboxCloserElement = event.currentTarget as HTMLElement;
+        const lightboxModalElement = lightboxCloserElement.parentElement;
+        const ligthboxViewerElement =
+          lightboxModalElement?.querySelector(".lightbox-viewer");
+        const ligthboxCounterElement =
+          lightboxModalElement?.querySelector(".lightbox-counter");
+        lightboxCloserElement?.classList.add("lightbox-closer-hide");
+        ligthboxViewerElement?.classList.add("lightbox-viewer-hide");
+        if (
+          ligthboxCounterElement &&
+          !ligthboxCounterElement.classList.contains("lightbox-counter-hide")
+        ) {
+          ligthboxCounterElement.classList.add("lightbox-counter-hide");
+        }
+        const closerTimeoutId = setTimeout(() => {
+          lightboxModalElement?.parentElement?.removeChild(
+            lightboxModalElement
+          );
+          clearTimeout(closerTimeoutId);
+        }, 500);
+      }
+    );
   }
 }
 
