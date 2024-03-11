@@ -9,6 +9,7 @@ class LightboxGallery implements Lightbox {
   private gallerySelector;
   private isInit: boolean;
   private galleryImages: HTMLElement[];
+  private currentImage: Number;
 
   constructor(gallerySelector: HTMLElement) {
     this.gallerySelector = gallerySelector;
@@ -16,13 +17,16 @@ class LightboxGallery implements Lightbox {
     this.galleryImages = Array.from(
       this.gallerySelector.querySelectorAll(lightboxImageSelector)
     );
+    this.currentImage = 0;
   }
 
   init() {
     if (!this.isInit) {
       this.isInit = true;
       for (let i = 0; i < this.galleryImages.length; i++) {
-        this.galleryImages[i].addEventListener("click", () => {
+        this.galleryImages[i].addEventListener("click", (event: MouseEvent) => {
+          const openImage = event.currentTarget as HTMLElement;
+          this.currentImage = this.galleryImages.indexOf(openImage);
           this.addLightboxTemplate();
         });
       }
