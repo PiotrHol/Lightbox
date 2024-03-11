@@ -8,13 +8,13 @@ interface Lightbox {
 class LightboxGallery implements Lightbox {
   private gallerySelector;
   private isInit: boolean;
-  private galleryImages: NodeListOf<HTMLElement>;
+  private galleryImages: HTMLElement[];
 
   constructor(gallerySelector: HTMLElement) {
     this.gallerySelector = gallerySelector;
     this.isInit = false;
-    this.galleryImages = this.gallerySelector.querySelectorAll(
-      lightboxImageSelector
+    this.galleryImages = Array.from(
+      this.gallerySelector.querySelectorAll(lightboxImageSelector)
     );
   }
 
@@ -43,32 +43,33 @@ class LightboxGallery implements Lightbox {
       "lightbox-closer-hide"
     );
     lightboxTemplate.appendChild(lightboxCloser);
-    const lightboxCounter = document.createElement("div");
-    lightboxCounter.classList.add(
-      "lightbox-counter",
-      "lightbox-counter-js",
-      "lightbox-counter-hide",
-      "lightbox-hidden"
-    );
-    lightboxTemplate.appendChild(lightboxCounter);
     const lightboxViewer = document.createElement("div");
     lightboxViewer.classList.add(
       "lightbox-viewer",
       "lightbox-viewer-js",
       "lightbox-viewer-hide"
     );
-    const lightboxLeftArrow = document.createElement("div");
-    lightboxLeftArrow.classList.add(
-      "lightbox-left-arrow",
-      "lightbox-left-arrow-js"
-    );
-    lightboxViewer.appendChild(lightboxLeftArrow);
-    const lightboxRightArrow = document.createElement("div");
-    lightboxRightArrow.classList.add(
-      "lightbox-right-arrow",
-      "lightbox-right-arrow-js"
-    );
-    lightboxViewer.appendChild(lightboxRightArrow);
+    if (this.galleryImages.length > 1) {
+      const lightboxCounter = document.createElement("div");
+      lightboxCounter.classList.add(
+        "lightbox-counter",
+        "lightbox-counter-js",
+        "lightbox-counter-hide"
+      );
+      lightboxTemplate.appendChild(lightboxCounter);
+      const lightboxLeftArrow = document.createElement("div");
+      lightboxLeftArrow.classList.add(
+        "lightbox-left-arrow",
+        "lightbox-left-arrow-js"
+      );
+      lightboxViewer.appendChild(lightboxLeftArrow);
+      const lightboxRightArrow = document.createElement("div");
+      lightboxRightArrow.classList.add(
+        "lightbox-right-arrow",
+        "lightbox-right-arrow-js"
+      );
+      lightboxViewer.appendChild(lightboxRightArrow);
+    }
     lightboxTemplate.appendChild(lightboxViewer);
     document.body.appendChild(lightboxTemplate);
     const firstTimeoutId = setTimeout(() => {
