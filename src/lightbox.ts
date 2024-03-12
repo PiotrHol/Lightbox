@@ -53,6 +53,11 @@ class LightboxGallery implements Lightbox {
       "lightbox-viewer-js",
       "lightbox-viewer-hide"
     );
+    const lightboxImage = document.createElement("img");
+    lightboxImage.classList.add("lightbox-image", "lightbox-image-js");
+    lightboxImage.src = "";
+    lightboxImage.alt = "";
+    lightboxViewer.appendChild(lightboxImage);
     if (this.galleryImages.length > 1) {
       const lightboxCounter = document.createElement("div");
       lightboxCounter.classList.add(
