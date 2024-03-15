@@ -195,6 +195,16 @@ class LightboxGallery implements Lightbox {
         this.reload();
       });
     }
+
+    const lightboxRightArrowNodeElement = document.querySelector(
+      ".lightbox-right-arrow-js"
+    ) as HTMLElement;
+    if (lightboxRightArrowNodeElement) {
+      lightboxRightArrowNodeElement.addEventListener("click", () => {
+        this.currentImage = this.currentImage + 1;
+        this.reload();
+      });
+    }
   }
 }
 
