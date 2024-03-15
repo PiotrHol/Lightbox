@@ -9,7 +9,7 @@ class LightboxGallery implements Lightbox {
   private gallerySelector;
   private isInit: boolean;
   private galleryImages: HTMLElement[];
-  private currentImage: Number;
+  private currentImage: number;
 
   constructor(gallerySelector: HTMLElement) {
     this.gallerySelector = gallerySelector;
@@ -28,8 +28,60 @@ class LightboxGallery implements Lightbox {
           const openImage = event.currentTarget as HTMLElement;
           this.currentImage = this.galleryImages.indexOf(openImage);
           this.addLightboxTemplate();
+          this.reload();
         });
       }
+    }
+  }
+
+  reload() {
+    const lightboxImage = document.querySelector(
+      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-image-js"
+    ) as HTMLImageElement;
+    const currentImg = this.galleryImages[this.currentImage];
+    if (lightboxImage && currentImg.dataset && currentImg.dataset.src) {
+      lightboxImage.src = currentImg.dataset.src;
+    }
+    if (lightboxImage && currentImg.dataset && currentImg.dataset.alt) {
+      lightboxImage.alt = currentImg.dataset.alt;
+    }
+    const lightboxCounter = document.querySelector(
+      ".lightbox-viewer-modal-js .lightbox-counter-js"
+    ) as HTMLElement;
+    if (lightboxCounter) {
+      lightboxCounter.innerText = `${this.currentImage + 1} / ${
+        this.galleryImages.length
+      }`;
+    }
+    const lightboxLeftArrow = document.querySelector(
+      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-left-arrow-js"
+    ) as HTMLElement;
+    if (
+      lightboxLeftArrow &&
+      this.currentImage == 0 &&
+      !lightboxLeftArrow.classList.contains("lightbox-hidden")
+    ) {
+      lightboxLeftArrow.classList.add("lightbox-hidden");
+    } else if (
+      lightboxLeftArrow &&
+      lightboxLeftArrow.classList.contains("lightbox-hidden")
+    ) {
+      lightboxLeftArrow.classList.remove("lightbox-hidden");
+    }
+    const lightboxRightArrow = document.querySelector(
+      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-right-arrow-js"
+    ) as HTMLElement;
+    if (
+      lightboxRightArrow &&
+      this.currentImage == this.galleryImages.length - 1 &&
+      !lightboxRightArrow.classList.contains("lightbox-hidden")
+    ) {
+      lightboxRightArrow.classList.add("lightbox-hidden");
+    } else if (
+      lightboxRightArrow &&
+      lightboxRightArrow.classList.contains("lightbox-hidden")
+    ) {
+      lightboxRightArrow.classList.remove("lightbox-hidden");
     }
   }
 
