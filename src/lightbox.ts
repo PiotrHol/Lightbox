@@ -143,13 +143,13 @@ class LightboxGallery implements Lightbox {
 
     const secondTimeoutId = setTimeout(() => {
       const lightboxVieverNode = document.querySelector(
-        ".lightbox-viewer-js.lightbox-viewer-hide"
+        ".lightbox-viewer-modal-js .lightbox-viewer-js.lightbox-viewer-hide"
       );
       const lightboxCloserNode = document.querySelector(
-        ".lightbox-closer-js.lightbox-closer-hide"
+        ".lightbox-viewer-modal-js .lightbox-closer-js.lightbox-closer-hide"
       );
       const lightboxCounterNode = document.querySelector(
-        ".lightbox-counter-js.lightbox-counter-hide"
+        ".lightbox-viewer-modal-js .lightbox-counter-js.lightbox-counter-hide"
       );
       lightboxVieverNode?.classList.remove("lightbox-viewer-hide");
       lightboxCloserNode?.classList.remove("lightbox-closer-hide");
@@ -158,36 +158,38 @@ class LightboxGallery implements Lightbox {
     }, 300);
 
     const lightboxCloserNodeElement = document.querySelector(
-      ".lightbox-closer-js"
-    ) as HTMLElement | null;
-    lightboxCloserNodeElement?.addEventListener(
-      "click",
-      (event: MouseEvent) => {
-        const lightboxCloserElement = event.currentTarget as HTMLElement;
-        const lightboxModalElement = lightboxCloserElement.parentElement;
-        const ligthboxViewerElement =
-          lightboxModalElement?.querySelector(".lightbox-viewer");
-        const ligthboxCounterElement =
-          lightboxModalElement?.querySelector(".lightbox-counter");
-        lightboxCloserElement?.classList.add("lightbox-closer-hide");
-        ligthboxViewerElement?.classList.add("lightbox-viewer-hide");
-        if (
-          ligthboxCounterElement &&
-          !ligthboxCounterElement.classList.contains("lightbox-counter-hide")
-        ) {
-          ligthboxCounterElement.classList.add("lightbox-counter-hide");
+      ".lightbox-viewer-modal-js .lightbox-closer-js"
+    ) as HTMLElement;
+    if (lightboxCloserNodeElement) {
+      lightboxCloserNodeElement.addEventListener(
+        "click",
+        (event: MouseEvent) => {
+          const lightboxCloserElement = event.currentTarget as HTMLElement;
+          const lightboxModalElement = lightboxCloserElement.parentElement;
+          const ligthboxViewerElement =
+            lightboxModalElement?.querySelector(".lightbox-viewer");
+          const ligthboxCounterElement =
+            lightboxModalElement?.querySelector(".lightbox-counter");
+          lightboxCloserElement?.classList.add("lightbox-closer-hide");
+          ligthboxViewerElement?.classList.add("lightbox-viewer-hide");
+          if (
+            ligthboxCounterElement &&
+            !ligthboxCounterElement.classList.contains("lightbox-counter-hide")
+          ) {
+            ligthboxCounterElement.classList.add("lightbox-counter-hide");
+          }
+          const closerTimeoutId = setTimeout(() => {
+            lightboxModalElement?.parentElement?.removeChild(
+              lightboxModalElement
+            );
+            clearTimeout(closerTimeoutId);
+          }, 500);
         }
-        const closerTimeoutId = setTimeout(() => {
-          lightboxModalElement?.parentElement?.removeChild(
-            lightboxModalElement
-          );
-          clearTimeout(closerTimeoutId);
-        }, 500);
-      }
-    );
+      );
+    }
 
     const lightboxLeftArrowNodeElement = document.querySelector(
-      ".lightbox-left-arrow-js"
+      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-left-arrow-js"
     ) as HTMLElement;
     if (lightboxLeftArrowNodeElement) {
       lightboxLeftArrowNodeElement.addEventListener("click", () => {
@@ -197,7 +199,7 @@ class LightboxGallery implements Lightbox {
     }
 
     const lightboxRightArrowNodeElement = document.querySelector(
-      ".lightbox-right-arrow-js"
+      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-right-arrow-js"
     ) as HTMLElement;
     if (lightboxRightArrowNodeElement) {
       lightboxRightArrowNodeElement.addEventListener("click", () => {
