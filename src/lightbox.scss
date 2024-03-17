@@ -93,8 +93,7 @@
   border-radius: 6px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
   transform: scale(1);
-  transition: width 0.5s ease-out, height 0.5s ease-out, min-width 0.5s ease-out,
-    min-height 0.5s ease-out, transform 0.5s ease-out;
+  transition: transform 0.5s ease-out;
   &-hide {
     transform: scale(0);
   }
@@ -103,11 +102,17 @@
 .lightbox-image {
   display: block;
   width: auto;
-  height: 100%;
+  height: auto;
   min-width: 150px;
   max-width: 80vw;
   min-height: 150px;
   max-height: 80vh;
+  transition: width 0.5s ease-out, height 0.5s ease-out, min-width 0.5s ease-out,
+    min-height 0.5s ease-out;
+  &--show {
+    transition: width 0.5s ease-out, height 0.5s ease-out,
+      min-width 0.5s ease-out, min-height 0.5s ease-out, opacity 0.5s ease-out;
+  }
 }
 
 .lightbox-left-arrow,
