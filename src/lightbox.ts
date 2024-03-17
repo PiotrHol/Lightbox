@@ -28,19 +28,43 @@ class LightboxGallery implements Lightbox {
           const openImage = event.currentTarget as HTMLElement;
           this.currentImage = this.galleryImages.indexOf(openImage);
           this.addLightboxTemplate();
-          this.reload();
+          this.reload(true);
         });
       }
     }
   }
 
-  reload() {
+  reload(isFirstReload = false) {
     const lightboxImage = document.querySelector(
       ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-image-js"
     ) as HTMLImageElement;
     const currentImg = this.galleryImages[this.currentImage];
     if (lightboxImage && currentImg.dataset && currentImg.dataset.src) {
+      const prevLightboxImageWidth = lightboxImage.width;
+      const prevLightboxImageHeight = lightboxImage.height;
+      lightboxImage.style.width = "auto";
+      lightboxImage.style.height = "auto";
+      lightboxImage.classList.remove("lightbox-image--show");
+      lightboxImage.style.opacity = "0";
       lightboxImage.src = currentImg.dataset.src;
+      const parentElementWidth = lightboxImage.parentElement?.offsetWidth;
+      const parentElementHeight = lightboxImage.parentElement?.offsetHeight;
+      if (!isFirstReload) {
+        lightboxImage.style.width = `${prevLightboxImageWidth}px`;
+        lightboxImage.style.height = `${prevLightboxImageHeight}px`;
+      }
+      const timeoutId = setTimeout(() => {
+        lightboxImage.style.width = `${parentElementWidth}px`;
+        lightboxImage.style.height = `${parentElementHeight}px`;
+        clearTimeout(timeoutId);
+      }, 100);
+      const secondTimeoutId = setTimeout(() => {
+        lightboxImage.classList.add("lightbox-image--show");
+        lightboxImage.style.opacity = "1";
+        lightboxImage.style.width = "auto";
+        lightboxImage.style.height = "auto";
+        clearTimeout(secondTimeoutId);
+      }, 500);
     }
     if (lightboxImage && currentImg.dataset && currentImg.dataset.alt) {
       lightboxImage.alt = currentImg.dataset.alt;
