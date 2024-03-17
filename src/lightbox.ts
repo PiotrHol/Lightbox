@@ -194,8 +194,14 @@ class LightboxGallery implements Lightbox {
             lightboxModalElement?.querySelector(".lightbox-viewer");
           const ligthboxCounterElement =
             lightboxModalElement?.querySelector(".lightbox-counter");
+          const lightboxImageElement = ligthboxViewerElement?.querySelector(
+            ".lightbox-image-js"
+          ) as HTMLImageElement;
           lightboxCloserElement?.classList.add("lightbox-closer-hide");
           ligthboxViewerElement?.classList.add("lightbox-viewer-hide");
+          if (lightboxImageElement) {
+            lightboxImageElement.style.opacity = "0";
+          }
           if (
             ligthboxCounterElement &&
             !ligthboxCounterElement.classList.contains("lightbox-counter-hide")
@@ -207,7 +213,7 @@ class LightboxGallery implements Lightbox {
               lightboxModalElement
             );
             clearTimeout(closerTimeoutId);
-          }, 500);
+          }, 700);
         }
       );
     }
