@@ -185,38 +185,9 @@ class LightboxGallery implements Lightbox {
       ".lightbox-viewer-modal-js .lightbox-closer-js"
     ) as HTMLElement;
     if (lightboxCloserNodeElement) {
-      lightboxCloserNodeElement.addEventListener(
-        "click",
-        (event: MouseEvent) => {
-          const lightboxCloserElement = event.currentTarget as HTMLElement;
-          const lightboxModalElement = lightboxCloserElement.parentElement;
-          const ligthboxViewerElement =
-            lightboxModalElement?.querySelector(".lightbox-viewer");
-          const ligthboxCounterElement =
-            lightboxModalElement?.querySelector(".lightbox-counter");
-          const lightboxImageElement = ligthboxViewerElement?.querySelector(
-            ".lightbox-image-js"
-          ) as HTMLImageElement;
-          lightboxCloserElement?.classList.add("lightbox-closer-hide");
-          ligthboxViewerElement?.classList.add("lightbox-viewer-hide");
-          if (lightboxImageElement) {
-            lightboxImageElement.style.opacity = "0";
-          }
-          if (
-            ligthboxCounterElement &&
-            !ligthboxCounterElement.classList.contains("lightbox-counter-hide")
-          ) {
-            ligthboxCounterElement.classList.add("lightbox-counter-hide");
-          }
-          document.removeEventListener("keydown", this.keyEventHandler);
-          const closerTimeoutId = setTimeout(() => {
-            lightboxModalElement?.parentElement?.removeChild(
-              lightboxModalElement
-            );
-            clearTimeout(closerTimeoutId);
-          }, 700);
-        }
-      );
+      lightboxCloserNodeElement.addEventListener("click", () => {
+        this.closeLightboxHandler();
+      });
     }
 
     const lightboxLeftArrowNodeElement = document.querySelector(
@@ -253,11 +224,45 @@ class LightboxGallery implements Lightbox {
     }
   }
 
+  closeLightboxHandler = () => {
+    const lightboxCloserElement = document.querySelector(
+      ".lightbox-viewer-modal-js .lightbox-closer-js"
+    ) as HTMLElement;
+    if (lightboxCloserElement) {
+      const lightboxModalElement = lightboxCloserElement.parentElement;
+      const ligthboxViewerElement =
+        lightboxModalElement?.querySelector(".lightbox-viewer");
+      const ligthboxCounterElement =
+        lightboxModalElement?.querySelector(".lightbox-counter");
+      const lightboxImageElement = ligthboxViewerElement?.querySelector(
+        ".lightbox-image-js"
+      ) as HTMLImageElement;
+      lightboxCloserElement.classList.add("lightbox-closer-hide");
+      ligthboxViewerElement?.classList.add("lightbox-viewer-hide");
+      if (lightboxImageElement) {
+        lightboxImageElement.style.opacity = "0";
+      }
+      if (
+        ligthboxCounterElement &&
+        !ligthboxCounterElement.classList.contains("lightbox-counter-hide")
+      ) {
+        ligthboxCounterElement.classList.add("lightbox-counter-hide");
+      }
+      document.removeEventListener("keydown", this.keyEventHandler);
+      const closerTimeoutId = setTimeout(() => {
+        lightboxModalElement?.parentElement?.removeChild(lightboxModalElement);
+        clearTimeout(closerTimeoutId);
+      }, 700);
+    }
+  };
+
   keyEventHandler = (event: KeyboardEvent) => {
     if (event.key === "ArrowLeft") {
       this.changeCurrentImage("prev");
     } else if (event.key === "ArrowRight") {
       this.changeCurrentImage("next");
+    } else if (event.key === "Escape") {
+      this.closeLightboxHandler();
     }
   };
 }
