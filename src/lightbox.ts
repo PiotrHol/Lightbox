@@ -223,8 +223,7 @@ class LightboxGallery implements Lightbox {
     ) as HTMLElement;
     if (lightboxLeftArrowNodeElement) {
       lightboxLeftArrowNodeElement.addEventListener("click", () => {
-        this.currentImage = this.currentImage - 1;
-        this.reload();
+        this.changeCurrentImage("prev");
       });
     }
 
@@ -233,10 +232,21 @@ class LightboxGallery implements Lightbox {
     ) as HTMLElement;
     if (lightboxRightArrowNodeElement) {
       lightboxRightArrowNodeElement.addEventListener("click", () => {
-        this.currentImage = this.currentImage + 1;
-        this.reload();
+        this.changeCurrentImage("next");
       });
     }
+  }
+
+  changeCurrentImage(sequence: "prev" | "next") {
+    if (sequence === "prev" && this.currentImage > 0) {
+      this.currentImage = this.currentImage - 1;
+    } else if (
+      sequence === "next" &&
+      this.currentImage < this.galleryImages.length - 1
+    ) {
+      this.currentImage = this.currentImage + 1;
+    }
+    this.reload();
   }
 }
 
