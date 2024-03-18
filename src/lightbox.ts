@@ -208,6 +208,7 @@ class LightboxGallery implements Lightbox {
           ) {
             ligthboxCounterElement.classList.add("lightbox-counter-hide");
           }
+          document.removeEventListener("keydown", this.keyEventHandler);
           const closerTimeoutId = setTimeout(() => {
             lightboxModalElement?.parentElement?.removeChild(
               lightboxModalElement
@@ -235,19 +236,30 @@ class LightboxGallery implements Lightbox {
         this.changeCurrentImage("next");
       });
     }
+
+    document.addEventListener("keydown", this.keyEventHandler);
   }
 
   changeCurrentImage(sequence: "prev" | "next") {
     if (sequence === "prev" && this.currentImage > 0) {
       this.currentImage = this.currentImage - 1;
+      this.reload();
     } else if (
       sequence === "next" &&
       this.currentImage < this.galleryImages.length - 1
     ) {
       this.currentImage = this.currentImage + 1;
+      this.reload();
     }
-    this.reload();
   }
+
+  keyEventHandler = (event: KeyboardEvent) => {
+    if (event.key === "ArrowLeft") {
+      this.changeCurrentImage("prev");
+    } else if (event.key === "ArrowRight") {
+      this.changeCurrentImage("next");
+    }
+  };
 }
 
 const nodeGalleryContainers: NodeListOf<HTMLElement> =
