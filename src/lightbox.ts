@@ -10,6 +10,7 @@ class LightboxGallery implements Lightbox {
   private isInit: boolean;
   private galleryImages: HTMLElement[];
   private currentImage: number;
+  private touchCoordinatesX: number;
 
   constructor(gallerySelector: HTMLElement) {
     this.gallerySelector = gallerySelector;
@@ -18,6 +19,7 @@ class LightboxGallery implements Lightbox {
       this.gallerySelector.querySelectorAll(lightboxImageSelector)
     );
     this.currentImage = 0;
+    this.touchCoordinatesX = 0;
   }
 
   init() {
@@ -209,6 +211,18 @@ class LightboxGallery implements Lightbox {
     }
 
     document.addEventListener("keydown", this.keyEventHandler);
+
+    const lightboxViewerNodeElement = document.querySelector(
+      ".lightbox-viewer-modal-js .lightbox-viewer-js"
+    ) as HTMLElement;
+    lightboxViewerNodeElement.addEventListener(
+      "touchstart",
+      this.touchStartEventHandler
+    );
+    lightboxViewerNodeElement.addEventListener(
+      "touchend",
+      this.touchEndEventHandler
+    );
   }
 
   changeCurrentImage(sequence: "prev" | "next") {
@@ -230,10 +244,12 @@ class LightboxGallery implements Lightbox {
     ) as HTMLElement;
     if (lightboxCloserElement) {
       const lightboxModalElement = lightboxCloserElement.parentElement;
-      const ligthboxViewerElement =
-        lightboxModalElement?.querySelector(".lightbox-viewer");
-      const ligthboxCounterElement =
-        lightboxModalElement?.querySelector(".lightbox-counter");
+      const ligthboxViewerElement = lightboxModalElement?.querySelector(
+        ".lightbox-viewer-js"
+      ) as HTMLElement;
+      const ligthboxCounterElement = lightboxModalElement?.querySelector(
+        ".lightbox-counter-js"
+      );
       const lightboxImageElement = ligthboxViewerElement?.querySelector(
         ".lightbox-image-js"
       ) as HTMLImageElement;
@@ -249,6 +265,14 @@ class LightboxGallery implements Lightbox {
         ligthboxCounterElement.classList.add("lightbox-counter-hide");
       }
       document.removeEventListener("keydown", this.keyEventHandler);
+      ligthboxViewerElement.removeEventListener(
+        "touchstart",
+        this.touchStartEventHandler
+      );
+      ligthboxViewerElement.removeEventListener(
+        "touchend",
+        this.touchEndEventHandler
+      );
       const closerTimeoutId = setTimeout(() => {
         lightboxModalElement?.parentElement?.removeChild(lightboxModalElement);
         clearTimeout(closerTimeoutId);
@@ -263,6 +287,19 @@ class LightboxGallery implements Lightbox {
       this.changeCurrentImage("next");
     } else if (event.key === "Escape") {
       this.closeLightboxHandler();
+    }
+  };
+
+  touchStartEventHandler = (event: TouchEvent) => {
+    this.touchCoordinatesX = event.changedTouches[0].clientX;
+  };
+
+  touchEndEventHandler = (event: TouchEvent) => {
+    const touchEndCoordinatesX = event.changedTouches[0].clientX;
+    if (touchEndCoordinatesX > this.touchCoordinatesX) {
+      this.changeCurrentImage("prev");
+    } else if (touchEndCoordinatesX < this.touchCoordinatesX) {
+      this.changeCurrentImage("next");
     }
   };
 }
