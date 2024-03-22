@@ -212,7 +212,9 @@ class LightboxGallery implements Lightbox {
     ) as HTMLElement;
     if (lightboxLeftArrowNodeElement) {
       lightboxLeftArrowNodeElement.addEventListener("click", () => {
-        this.changeCurrentImage("prev");
+        if (window.innerWidth > 768) {
+          this.changeCurrentImage("prev");
+        }
       });
     }
 
@@ -221,7 +223,9 @@ class LightboxGallery implements Lightbox {
     ) as HTMLElement;
     if (lightboxRightArrowNodeElement) {
       lightboxRightArrowNodeElement.addEventListener("click", () => {
-        this.changeCurrentImage("next");
+        if (window.innerWidth > 768) {
+          this.changeCurrentImage("next");
+        }
       });
     }
 
