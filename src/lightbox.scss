@@ -126,9 +126,7 @@
   width: 100px;
   cursor: pointer;
   transition: opacity 0.3s linear;
-  &:hover {
-    opacity: 1;
-  }
+  -webkit-tap-highlight-color: transparent;
   &::after,
   &::before {
     content: "";
@@ -166,5 +164,14 @@
   }
   &::before {
     transform: translateX(-50%) translateY(190%) rotate(135deg);
+  }
+}
+
+@media (hover: hover) {
+  .lightbox-left-arrow,
+  .lightbox-right-arrow {
+    &:hover {
+      opacity: 1;
+    }
   }
 }
