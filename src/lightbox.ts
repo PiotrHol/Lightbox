@@ -40,6 +40,9 @@ class LightboxGallery implements Lightbox {
     const lightboxImage = document.querySelector(
       ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-image-js"
     ) as HTMLImageElement;
+    const lightboxLoader = document.querySelector(
+      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-loader-js"
+    ) as HTMLImageElement;
     const currentImg = this.galleryImages[this.currentImage];
     if (lightboxImage && currentImg.dataset && currentImg.dataset.src) {
       const prevLightboxImageWidth = lightboxImage.width;
@@ -47,6 +50,7 @@ class LightboxGallery implements Lightbox {
       lightboxImage.style.width = "auto";
       lightboxImage.style.height = "auto";
       lightboxImage.classList.remove("lightbox-image--show");
+      lightboxLoader.classList.remove("lightbox-hidden");
       lightboxImage.style.opacity = "0";
       lightboxImage.src = currentImg.dataset.src;
       let parentElementWidth: number | undefined;
@@ -75,6 +79,7 @@ class LightboxGallery implements Lightbox {
           clearTimeout(timeoutId);
         }, 100);
         const secondTimeoutId = setTimeout(() => {
+          lightboxLoader.classList.add("lightbox-hidden");
           lightboxImage.classList.add("lightbox-image--show");
           lightboxImage.style.opacity = "1";
           lightboxImage.style.width = "auto";
@@ -146,6 +151,9 @@ class LightboxGallery implements Lightbox {
       "lightbox-viewer-js",
       "lightbox-viewer-hide"
     );
+    const lightboxLoader = document.createElement("div");
+    lightboxLoader.classList.add("lightbox-loader", "lightbox-loader-js");
+    lightboxViewer.appendChild(lightboxLoader);
     const lightboxImage = document.createElement("img");
     lightboxImage.classList.add("lightbox-image", "lightbox-image-js");
     lightboxImage.src = "";
