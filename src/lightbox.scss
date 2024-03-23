@@ -28,24 +28,25 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   background: rgba(0, 0, 0, 0.7);
   border-radius: 8px;
   cursor: pointer;
   opacity: 1;
   transition: opacity 0.5s ease-out;
+  -webkit-tap-highlight-color: transparent;
   &::after,
   &::before {
     content: "";
     display: block;
-    width: 30px;
+    width: 26px;
     height: 3px;
     background: rgb(255, 255, 255);
     border-radius: 8px;
     position: absolute;
-    top: 23px;
-    left: 10px;
+    top: 18px;
+    left: 7px;
     transition: width 0.3s ease-out, left 0.3s ease-out;
   }
   &::after {
@@ -54,15 +55,18 @@
   &::before {
     transform: rotate(-45deg);
   }
-  &:hover {
-    &::after,
-    &::before {
-      width: 34px;
-      left: 8px;
-    }
-  }
   &-hide {
     opacity: 0;
+  }
+  @media screen and (min-width: 769px) {
+    width: 50px;
+    height: 50px;
+    &::after,
+    &::before {
+      width: 30px;
+      top: 23px;
+      left: 10px;
+    }
   }
 }
 
@@ -194,6 +198,15 @@
 }
 
 @media (hover: hover) {
+  .lightbox-closer {
+    &:hover {
+      &::after,
+      &::before {
+        width: 34px;
+        left: 8px;
+      }
+    }
+  }
   .lightbox-left-arrow,
   .lightbox-right-arrow {
     &:hover {
