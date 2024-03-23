@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Roboto:wght@300;400;700&display=swap");
+
 .lightbox-hidden {
   display: none !important;
 }
@@ -14,7 +16,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: "Times New Roman", Times, serif;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
   transition: background-color 0.2s ease-out;
   &-hide {
     background-color: rgba(0, 0, 0, 0);
