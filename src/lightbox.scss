@@ -36,6 +36,7 @@
   opacity: 1;
   transition: opacity 0.5s ease-out;
   -webkit-tap-highlight-color: transparent;
+  z-index: 2;
   &::after,
   &::before {
     content: "";
@@ -81,7 +82,6 @@
   background: rgba(0, 0, 0, 0.7);
   border-radius: 8px;
   color: rgb(255, 255, 255);
-  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -89,6 +89,7 @@
   letter-spacing: 1.5px;
   opacity: 1;
   transition: opacity 0.5s ease-out;
+  z-index: 2;
   &-hide {
     opacity: 0;
   }
@@ -106,6 +107,7 @@
   border: 4px solid rgb(255, 255, 255);
   transform: scale(1);
   transition: transform 0.7s ease-out;
+  overflow: hidden;
   &-hide {
     transform: scale(0);
   }
@@ -119,6 +121,7 @@
   max-width: 80vw;
   min-height: 150px;
   max-height: 80vh;
+  -webkit-tap-highlight-color: transparent;
   transition: width 0.5s ease-out, height 0.5s ease-out, min-width 0.5s ease-out,
     min-height 0.5s ease-out;
   &--show {
@@ -216,5 +219,28 @@
     &:hover {
       opacity: 1;
     }
+  }
+}
+
+.lightbox-caption {
+  box-sizing: border-box;
+  position: absolute;
+  width: 100%;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  font-size: 11px;
+  letter-spacing: 0.025em;
+  padding: 7px 14px;
+  color: rgb(255, 255, 255);
+  background-color: rgba(0, 0, 0, 0.5);
+  transform: translateY(100%);
+  transition: transform 0.5s ease-in-out;
+  &--show {
+    transform: translateY(0);
+  }
+  @media screen and (min-width: 769px) {
+    font-size: 14px;
+    padding: 10px 20px;
   }
 }
