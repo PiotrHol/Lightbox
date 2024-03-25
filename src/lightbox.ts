@@ -42,7 +42,10 @@ class LightboxGallery implements Lightbox {
     ) as HTMLImageElement;
     const lightboxLoader = document.querySelector(
       ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-loader-js"
-    ) as HTMLImageElement;
+    ) as HTMLDivElement;
+    const lightboxCaption = document.querySelector(
+      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-caption-js"
+    ) as HTMLDivElement;
     const currentImg = this.galleryImages[this.currentImage];
     if (lightboxImage && currentImg.dataset && currentImg.dataset.src) {
       const prevLightboxImageWidth = lightboxImage.width;
@@ -51,6 +54,11 @@ class LightboxGallery implements Lightbox {
       lightboxImage.style.height = "auto";
       lightboxImage.classList.remove("lightbox-image--show");
       lightboxLoader.classList.remove("lightbox-hidden");
+      let isPrevLightboxCaption = false;
+      if (lightboxCaption.classList.contains("lightbox-caption--show")) {
+        isPrevLightboxCaption = true;
+        lightboxCaption.classList.remove("lightbox-caption--show");
+      }
       lightboxImage.style.opacity = "0";
       lightboxImage.src = currentImg.dataset.src;
       let parentElementWidth: number | undefined;
@@ -84,6 +92,15 @@ class LightboxGallery implements Lightbox {
           lightboxImage.style.opacity = "1";
           lightboxImage.style.width = "auto";
           lightboxImage.style.height = "auto";
+          if (currentImg.dataset.caption) {
+            lightboxCaption.innerText =
+              currentImg.dataset.caption.length > 100
+                ? currentImg.dataset.caption.slice(0, 99) + "..."
+                : currentImg.dataset.caption;
+            if (isPrevLightboxCaption) {
+              lightboxCaption.classList.add("lightbox-caption--show");
+            }
+          }
           clearTimeout(secondTimeoutId);
         }, 500);
       };
@@ -180,6 +197,12 @@ class LightboxGallery implements Lightbox {
       );
       lightboxViewer.appendChild(lightboxRightArrow);
     }
+    const lightboxImageCaption = document.createElement("div");
+    lightboxImageCaption.classList.add(
+      "lightbox-caption",
+      "lightbox-caption-js"
+    );
+    lightboxViewer.appendChild(lightboxImageCaption);
     lightboxTemplate.appendChild(lightboxViewer);
     document.body.appendChild(lightboxTemplate);
     const firstTimeoutId = setTimeout(() => {
@@ -250,6 +273,50 @@ class LightboxGallery implements Lightbox {
       "touchend",
       this.touchEndEventHandler
     );
+
+    const lightboxImageNodeElement = document.querySelector(
+      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-image-js"
+    ) as HTMLImageElement;
+    lightboxImageNodeElement.addEventListener("click", (e: MouseEvent) => {
+      if (e.currentTarget == e.target && window.innerWidth < 769) {
+        const imageNodeElement = e.currentTarget as HTMLImageElement;
+        const captionNodeElement =
+          imageNodeElement.parentElement?.querySelector(".lightbox-caption-js");
+        if (captionNodeElement) {
+          if (captionNodeElement.classList.contains("lightbox-caption--show")) {
+            captionNodeElement.classList.remove("lightbox-caption--show");
+          } else {
+            captionNodeElement.classList.add("lightbox-caption--show");
+          }
+        }
+      }
+    });
+    lightboxImageNodeElement.addEventListener("mouseenter", (e: MouseEvent) => {
+      const imageNodeElement = e.currentTarget as HTMLImageElement;
+      const captionNodeElement = imageNodeElement.parentElement?.querySelector(
+        ".lightbox-caption-js"
+      );
+      if (
+        window.innerWidth > 768 &&
+        captionNodeElement &&
+        !captionNodeElement.classList.contains("lightbox-caption--show")
+      ) {
+        captionNodeElement.classList.add("lightbox-caption--show");
+      }
+    });
+    lightboxImageNodeElement.addEventListener("mouseleave", (e: MouseEvent) => {
+      const imageNodeElement = e.currentTarget as HTMLImageElement;
+      const captionNodeElement = imageNodeElement.parentElement?.querySelector(
+        ".lightbox-caption-js"
+      );
+      if (
+        window.innerWidth > 768 &&
+        captionNodeElement &&
+        captionNodeElement.classList.contains("lightbox-caption--show")
+      ) {
+        captionNodeElement.classList.remove("lightbox-caption--show");
+      }
+    });
   }
 
   changeCurrentImage(sequence: "prev" | "next") {
