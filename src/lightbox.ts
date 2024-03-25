@@ -231,10 +231,21 @@ class LightboxGallery implements Lightbox {
 
     const lightboxCloserNodeElement = document.querySelector(
       ".lightbox-viewer-modal-js .lightbox-closer-js"
-    ) as HTMLElement;
+    ) as HTMLElement | null;
     if (lightboxCloserNodeElement) {
       lightboxCloserNodeElement.addEventListener("click", () => {
         this.closeLightboxHandler();
+      });
+    }
+
+    const lightboxModalNodeElement = document.querySelector(
+      ".lightbox-viewer-modal-js"
+    ) as HTMLElement | null;
+    if (lightboxModalNodeElement) {
+      lightboxModalNodeElement.addEventListener("click", (e: MouseEvent) => {
+        if (e.currentTarget == e.target) {
+          this.closeLightboxHandler();
+        }
       });
     }
 
