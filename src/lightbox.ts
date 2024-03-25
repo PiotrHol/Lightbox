@@ -3,6 +3,13 @@ const lightboxImageSelector = ".lightbox-image";
 
 interface Lightbox {
   init: () => void;
+  reload: (a: boolean) => void;
+  addLightboxTemplate: () => void;
+  changeCurrentImage: (a: "prev" | "next") => void;
+  closeLightboxHandler: () => void;
+  keyEventHandler: (e: KeyboardEvent) => void;
+  touchStartEventHandler: (e: TouchEvent) => void;
+  touchEndEventHandler: (e: TouchEvent) => void;
 }
 
 class LightboxGallery implements Lightbox {
