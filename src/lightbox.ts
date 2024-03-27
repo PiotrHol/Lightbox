@@ -130,8 +130,16 @@ class LightboxGallery implements Lightbox {
           clearTimeout(secondTimeoutId);
         }, 500);
       };
+    } else {
+      lightboxImage.src = "";
+      lightboxCaption.innerText = "";
     }
-    if (lightboxImage && currentImg.dataset && currentImg.dataset.alt) {
+    if (
+      lightboxImage &&
+      currentImg.dataset &&
+      currentImg.dataset.src &&
+      currentImg.dataset.alt
+    ) {
       lightboxImage.alt = currentImg.dataset.alt;
     } else {
       lightboxImage.alt = "";
