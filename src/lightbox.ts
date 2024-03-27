@@ -1,5 +1,15 @@
-const lightboxContainerSelector = ".lightbox-container";
-const lightboxImageSelector = ".lightbox-image";
+const lightboxHiddenClass = "lightbox-hidden";
+const lightboxContainerClass = "lightbox-container";
+const lightboxImagesClass = "lightbox-image";
+const lightboxModalClass = "lightbox-viewer-modal";
+const lightboxViewerClass = "lightbox-viewer";
+const lightboxViewerImageClass = "lightbox-viewer-image";
+const lightboxLoaderClass = "lightbox-loader";
+const lightboxCaptionClass = "lightbox-caption";
+const lightboxCounterClass = "lightbox-counter";
+const lightboxLeftArrowClass = "lightbox-left-arrow";
+const lightboxRightArrowClass = "lightbox-right-arrow";
+const lightboxCloserClass = "lightbox-closer";
 
 interface Lightbox {
   init: () => void;
@@ -23,7 +33,7 @@ class LightboxGallery implements Lightbox {
     this.gallerySelector = gallerySelector;
     this.isInit = false;
     this.galleryImages = Array.from(
-      this.gallerySelector.querySelectorAll(lightboxImageSelector)
+      this.gallerySelector.querySelectorAll(`.${lightboxImagesClass}`)
     );
     this.currentImage = 0;
     this.touchCoordinatesX = 0;
@@ -45,13 +55,13 @@ class LightboxGallery implements Lightbox {
 
   reload(isFirstReload = false) {
     const lightboxImage = document.querySelector(
-      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-image-js"
+      `.${lightboxModalClass}-js .${lightboxViewerClass}-js .${lightboxViewerImageClass}-js`
     ) as HTMLImageElement;
     const lightboxLoader = document.querySelector(
-      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-loader-js"
+      `.${lightboxModalClass}-js .${lightboxViewerClass}-js .${lightboxLoaderClass}-js`
     ) as HTMLDivElement;
     const lightboxCaption = document.querySelector(
-      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-caption-js"
+      `.${lightboxModalClass}-js .${lightboxViewerClass}-js .${lightboxCaptionClass}-js`
     ) as HTMLDivElement;
     const currentImg = this.galleryImages[this.currentImage];
     if (lightboxImage && currentImg.dataset && currentImg.dataset.src) {
@@ -59,12 +69,12 @@ class LightboxGallery implements Lightbox {
       const prevLightboxImageHeight = lightboxImage.height;
       lightboxImage.style.width = "auto";
       lightboxImage.style.height = "auto";
-      lightboxImage.classList.remove("lightbox-image--show");
-      lightboxLoader.classList.remove("lightbox-hidden");
+      lightboxImage.classList.remove(`${lightboxViewerImageClass}--show`);
+      lightboxLoader.classList.remove(lightboxHiddenClass);
       let isPrevLightboxCaption = false;
-      if (lightboxCaption.classList.contains("lightbox-caption--show")) {
+      if (lightboxCaption.classList.contains(`${lightboxCaptionClass}--show`)) {
         isPrevLightboxCaption = true;
-        lightboxCaption.classList.remove("lightbox-caption--show");
+        lightboxCaption.classList.remove(`${lightboxCaptionClass}--show`);
       }
       lightboxImage.style.opacity = "0";
       lightboxImage.src = currentImg.dataset.src;
@@ -94,8 +104,8 @@ class LightboxGallery implements Lightbox {
           clearTimeout(timeoutId);
         }, 100);
         const secondTimeoutId = setTimeout(() => {
-          lightboxLoader.classList.add("lightbox-hidden");
-          lightboxImage.classList.add("lightbox-image--show");
+          lightboxLoader.classList.add(lightboxHiddenClass);
+          lightboxImage.classList.add(`${lightboxViewerImageClass}--show`);
           lightboxImage.style.opacity = "1";
           lightboxImage.style.width = "auto";
           lightboxImage.style.height = "auto";
@@ -105,7 +115,7 @@ class LightboxGallery implements Lightbox {
                 ? currentImg.dataset.caption.slice(0, 99) + "..."
                 : currentImg.dataset.caption;
             if (isPrevLightboxCaption) {
-              lightboxCaption.classList.add("lightbox-caption--show");
+              lightboxCaption.classList.add(`${lightboxCaptionClass}--show`);
             }
           }
           clearTimeout(secondTimeoutId);
@@ -116,7 +126,7 @@ class LightboxGallery implements Lightbox {
       lightboxImage.alt = currentImg.dataset.alt;
     }
     const lightboxCounter = document.querySelector(
-      ".lightbox-viewer-modal-js .lightbox-counter-js"
+      `.${lightboxModalClass}-js .${lightboxCounterClass}-js`
     ) as HTMLElement;
     if (lightboxCounter) {
       lightboxCounter.innerText = `${this.currentImage + 1} / ${
@@ -124,120 +134,126 @@ class LightboxGallery implements Lightbox {
       }`;
     }
     const lightboxLeftArrow = document.querySelector(
-      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-left-arrow-js"
+      `.${lightboxModalClass}-js .${lightboxViewerClass}-js .${lightboxLeftArrowClass}-js`
     ) as HTMLElement;
     if (
       lightboxLeftArrow &&
       this.currentImage == 0 &&
-      !lightboxLeftArrow.classList.contains("lightbox-hidden")
+      !lightboxLeftArrow.classList.contains(lightboxHiddenClass)
     ) {
-      lightboxLeftArrow.classList.add("lightbox-hidden");
+      lightboxLeftArrow.classList.add(lightboxHiddenClass);
     } else if (
       lightboxLeftArrow &&
-      lightboxLeftArrow.classList.contains("lightbox-hidden")
+      lightboxLeftArrow.classList.contains(lightboxHiddenClass)
     ) {
-      lightboxLeftArrow.classList.remove("lightbox-hidden");
+      lightboxLeftArrow.classList.remove(lightboxHiddenClass);
     }
     const lightboxRightArrow = document.querySelector(
-      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-right-arrow-js"
+      `.${lightboxModalClass}-js .${lightboxViewerClass}-js .${lightboxRightArrowClass}-js`
     ) as HTMLElement;
     if (
       lightboxRightArrow &&
       this.currentImage == this.galleryImages.length - 1 &&
-      !lightboxRightArrow.classList.contains("lightbox-hidden")
+      !lightboxRightArrow.classList.contains(lightboxHiddenClass)
     ) {
-      lightboxRightArrow.classList.add("lightbox-hidden");
+      lightboxRightArrow.classList.add(lightboxHiddenClass);
     } else if (
       lightboxRightArrow &&
-      lightboxRightArrow.classList.contains("lightbox-hidden")
+      lightboxRightArrow.classList.contains(lightboxHiddenClass)
     ) {
-      lightboxRightArrow.classList.remove("lightbox-hidden");
+      lightboxRightArrow.classList.remove(lightboxHiddenClass);
     }
   }
 
   addLightboxTemplate() {
     const lightboxTemplate = document.createElement("div");
     lightboxTemplate.classList.add(
-      "lightbox-viewer-modal",
-      "lightbox-viewer-modal-js",
-      "lightbox-viewer-modal-hide"
+      lightboxModalClass,
+      `${lightboxModalClass}-js`,
+      `${lightboxModalClass}-hide`
     );
     const lightboxCloser = document.createElement("div");
     lightboxCloser.classList.add(
-      "lightbox-closer",
-      "lightbox-closer-js",
-      "lightbox-closer-hide"
+      lightboxCloserClass,
+      `${lightboxCloserClass}-js`,
+      `${lightboxCloserClass}-hide`
     );
     lightboxTemplate.appendChild(lightboxCloser);
     const lightboxViewer = document.createElement("div");
     lightboxViewer.classList.add(
-      "lightbox-viewer",
-      "lightbox-viewer-js",
-      "lightbox-viewer-hide"
+      lightboxViewerClass,
+      `${lightboxViewerClass}-js`,
+      `${lightboxViewerClass}-hide`
     );
     const lightboxLoader = document.createElement("div");
-    lightboxLoader.classList.add("lightbox-loader", "lightbox-loader-js");
+    lightboxLoader.classList.add(
+      lightboxLoaderClass,
+      `${lightboxLoaderClass}-js`
+    );
     lightboxViewer.appendChild(lightboxLoader);
     const lightboxImage = document.createElement("img");
-    lightboxImage.classList.add("lightbox-image", "lightbox-image-js");
+    lightboxImage.classList.add(
+      lightboxViewerImageClass,
+      `${lightboxViewerImageClass}-js`
+    );
     lightboxImage.src = "";
     lightboxImage.alt = "";
     lightboxViewer.appendChild(lightboxImage);
     if (this.galleryImages.length > 1) {
       const lightboxCounter = document.createElement("div");
       lightboxCounter.classList.add(
-        "lightbox-counter",
-        "lightbox-counter-js",
-        "lightbox-counter-hide"
+        lightboxCounterClass,
+        `${lightboxCounterClass}-js`,
+        `${lightboxCounterClass}-hide`
       );
       lightboxTemplate.appendChild(lightboxCounter);
       const lightboxLeftArrow = document.createElement("div");
       lightboxLeftArrow.classList.add(
-        "lightbox-left-arrow",
-        "lightbox-left-arrow-js"
+        lightboxLeftArrowClass,
+        `${lightboxLeftArrowClass}-js`
       );
       lightboxViewer.appendChild(lightboxLeftArrow);
       const lightboxRightArrow = document.createElement("div");
       lightboxRightArrow.classList.add(
-        "lightbox-right-arrow",
-        "lightbox-right-arrow-js"
+        lightboxRightArrowClass,
+        `${lightboxRightArrowClass}-js`
       );
       lightboxViewer.appendChild(lightboxRightArrow);
     }
     const lightboxImageCaption = document.createElement("div");
     lightboxImageCaption.classList.add(
-      "lightbox-caption",
-      "lightbox-caption-js"
+      lightboxCaptionClass,
+      `${lightboxCaptionClass}-js`
     );
     lightboxViewer.appendChild(lightboxImageCaption);
     lightboxTemplate.appendChild(lightboxViewer);
     document.body.appendChild(lightboxTemplate);
     const firstTimeoutId = setTimeout(() => {
       const lightboxModalNode = document.querySelector(
-        ".lightbox-viewer-modal-js.lightbox-viewer-modal-hide"
+        `.${lightboxModalClass}-js.${lightboxModalClass}-hide`
       );
-      lightboxModalNode?.classList.remove("lightbox-viewer-modal-hide");
+      lightboxModalNode?.classList.remove(`${lightboxModalClass}-hide`);
       clearTimeout(firstTimeoutId);
     }, 100);
 
     const secondTimeoutId = setTimeout(() => {
       const lightboxVieverNode = document.querySelector(
-        ".lightbox-viewer-modal-js .lightbox-viewer-js.lightbox-viewer-hide"
+        `.${lightboxModalClass}-js .${lightboxViewerClass}-js.${lightboxViewerClass}-hide`
       );
       const lightboxCloserNode = document.querySelector(
-        ".lightbox-viewer-modal-js .lightbox-closer-js.lightbox-closer-hide"
+        `.${lightboxModalClass}-js .${lightboxCloserClass}-js.${lightboxCloserClass}-hide`
       );
       const lightboxCounterNode = document.querySelector(
-        ".lightbox-viewer-modal-js .lightbox-counter-js.lightbox-counter-hide"
+        `.${lightboxModalClass}-js .${lightboxCounterClass}-js.${lightboxCounterClass}-hide`
       );
-      lightboxVieverNode?.classList.remove("lightbox-viewer-hide");
-      lightboxCloserNode?.classList.remove("lightbox-closer-hide");
-      lightboxCounterNode?.classList.remove("lightbox-counter-hide");
+      lightboxVieverNode?.classList.remove(`${lightboxViewerClass}-hide`);
+      lightboxCloserNode?.classList.remove(`${lightboxCloserClass}-hide`);
+      lightboxCounterNode?.classList.remove(`${lightboxCounterClass}-hide`);
       clearTimeout(secondTimeoutId);
     }, 300);
 
     const lightboxCloserNodeElement = document.querySelector(
-      ".lightbox-viewer-modal-js .lightbox-closer-js"
+      `.${lightboxModalClass}-js .${lightboxCloserClass}-js`
     ) as HTMLElement | null;
     if (lightboxCloserNodeElement) {
       lightboxCloserNodeElement.addEventListener("click", () => {
@@ -246,7 +262,7 @@ class LightboxGallery implements Lightbox {
     }
 
     const lightboxModalNodeElement = document.querySelector(
-      ".lightbox-viewer-modal-js"
+      `.${lightboxModalClass}-js`
     ) as HTMLElement | null;
     if (lightboxModalNodeElement) {
       lightboxModalNodeElement.addEventListener("click", (e: MouseEvent) => {
@@ -257,7 +273,7 @@ class LightboxGallery implements Lightbox {
     }
 
     const lightboxLeftArrowNodeElement = document.querySelector(
-      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-left-arrow-js"
+      `.${lightboxModalClass}-js .${lightboxViewerClass}-js .${lightboxLeftArrowClass}-js`
     ) as HTMLElement;
     if (lightboxLeftArrowNodeElement) {
       lightboxLeftArrowNodeElement.addEventListener("click", () => {
@@ -268,7 +284,7 @@ class LightboxGallery implements Lightbox {
     }
 
     const lightboxRightArrowNodeElement = document.querySelector(
-      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-right-arrow-js"
+      `.${lightboxModalClass}-js .${lightboxViewerClass}-js .${lightboxRightArrowClass}-js`
     ) as HTMLElement;
     if (lightboxRightArrowNodeElement) {
       lightboxRightArrowNodeElement.addEventListener("click", () => {
@@ -281,7 +297,7 @@ class LightboxGallery implements Lightbox {
     document.addEventListener("keydown", this.keyEventHandler);
 
     const lightboxViewerNodeElement = document.querySelector(
-      ".lightbox-viewer-modal-js .lightbox-viewer-js"
+      `.${lightboxModalClass}-js .${lightboxViewerClass}-js`
     ) as HTMLElement;
     lightboxViewerNodeElement.addEventListener(
       "touchstart",
@@ -293,18 +309,26 @@ class LightboxGallery implements Lightbox {
     );
 
     const lightboxImageNodeElement = document.querySelector(
-      ".lightbox-viewer-modal-js .lightbox-viewer-js .lightbox-image-js"
+      `.${lightboxModalClass}-js .${lightboxViewerClass}-js .${lightboxViewerImageClass}-js`
     ) as HTMLImageElement;
     lightboxImageNodeElement.addEventListener("click", (e: MouseEvent) => {
       if (e.currentTarget == e.target && window.innerWidth < 769) {
         const imageNodeElement = e.currentTarget as HTMLImageElement;
         const captionNodeElement =
-          imageNodeElement.parentElement?.querySelector(".lightbox-caption-js");
+          imageNodeElement.parentElement?.querySelector(
+            `.${lightboxCaptionClass}-js`
+          );
         if (captionNodeElement) {
-          if (captionNodeElement.classList.contains("lightbox-caption--show")) {
-            captionNodeElement.classList.remove("lightbox-caption--show");
+          if (
+            captionNodeElement.classList.contains(
+              `${lightboxCaptionClass}--show`
+            )
+          ) {
+            captionNodeElement.classList.remove(
+              `${lightboxCaptionClass}--show`
+            );
           } else {
-            captionNodeElement.classList.add("lightbox-caption--show");
+            captionNodeElement.classList.add(`${lightboxCaptionClass}--show`);
           }
         }
       }
@@ -312,27 +336,27 @@ class LightboxGallery implements Lightbox {
     lightboxImageNodeElement.addEventListener("mouseenter", (e: MouseEvent) => {
       const imageNodeElement = e.currentTarget as HTMLImageElement;
       const captionNodeElement = imageNodeElement.parentElement?.querySelector(
-        ".lightbox-caption-js"
+        `.${lightboxCaptionClass}-js`
       );
       if (
         window.innerWidth > 768 &&
         captionNodeElement &&
-        !captionNodeElement.classList.contains("lightbox-caption--show")
+        !captionNodeElement.classList.contains(`${lightboxCaptionClass}--show`)
       ) {
-        captionNodeElement.classList.add("lightbox-caption--show");
+        captionNodeElement.classList.add(`${lightboxCaptionClass}--show`);
       }
     });
     lightboxImageNodeElement.addEventListener("mouseleave", (e: MouseEvent) => {
       const imageNodeElement = e.currentTarget as HTMLImageElement;
       const captionNodeElement = imageNodeElement.parentElement?.querySelector(
-        ".lightbox-caption-js"
+        `.${lightboxCaptionClass}-js`
       );
       if (
         window.innerWidth > 768 &&
         captionNodeElement &&
-        captionNodeElement.classList.contains("lightbox-caption--show")
+        captionNodeElement.classList.contains(`${lightboxCaptionClass}--show`)
       ) {
-        captionNodeElement.classList.remove("lightbox-caption--show");
+        captionNodeElement.classList.remove(`${lightboxCaptionClass}--show`);
       }
     });
   }
@@ -352,29 +376,31 @@ class LightboxGallery implements Lightbox {
 
   closeLightboxHandler = () => {
     const lightboxCloserElement = document.querySelector(
-      ".lightbox-viewer-modal-js .lightbox-closer-js"
+      `.${lightboxModalClass}-js .${lightboxCloserClass}-js`
     ) as HTMLElement;
     if (lightboxCloserElement) {
       const lightboxModalElement = lightboxCloserElement.parentElement;
       const ligthboxViewerElement = lightboxModalElement?.querySelector(
-        ".lightbox-viewer-js"
+        `.${lightboxViewerClass}-js`
       ) as HTMLElement;
       const ligthboxCounterElement = lightboxModalElement?.querySelector(
-        ".lightbox-counter-js"
+        `.${lightboxCounterClass}-js`
       );
       const lightboxImageElement = ligthboxViewerElement?.querySelector(
-        ".lightbox-image-js"
+        `.${lightboxViewerImageClass}-js`
       ) as HTMLImageElement;
-      lightboxCloserElement.classList.add("lightbox-closer-hide");
-      ligthboxViewerElement?.classList.add("lightbox-viewer-hide");
+      lightboxCloserElement.classList.add(`${lightboxCloserClass}-hide`);
+      ligthboxViewerElement?.classList.add(`${lightboxViewerClass}-hide`);
       if (lightboxImageElement) {
         lightboxImageElement.style.opacity = "0";
       }
       if (
         ligthboxCounterElement &&
-        !ligthboxCounterElement.classList.contains("lightbox-counter-hide")
+        !ligthboxCounterElement.classList.contains(
+          `${lightboxCounterClass}-hide`
+        )
       ) {
-        ligthboxCounterElement.classList.add("lightbox-counter-hide");
+        ligthboxCounterElement.classList.add(`${lightboxCounterClass}-hide`);
       }
       document.removeEventListener("keydown", this.keyEventHandler);
       ligthboxViewerElement.removeEventListener(
@@ -417,7 +443,7 @@ class LightboxGallery implements Lightbox {
 }
 
 const nodeGalleryContainers: NodeListOf<HTMLElement> =
-  document.querySelectorAll(lightboxContainerSelector);
+  document.querySelectorAll(`.${lightboxContainerClass}`);
 
 const galleryContainers: LightboxGallery[] = [];
 
