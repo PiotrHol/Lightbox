@@ -204,24 +204,6 @@
   }
 }
 
-@media (hover: hover) {
-  .lightbox-closer {
-    &:hover {
-      &::after,
-      &::before {
-        width: 34px;
-        left: 8px;
-      }
-    }
-  }
-  .lightbox-left-arrow,
-  .lightbox-right-arrow {
-    &:hover {
-      opacity: 1;
-    }
-  }
-}
-
 .lightbox-caption {
   box-sizing: border-box;
   position: absolute;
@@ -242,5 +224,23 @@
   @media screen and (min-width: 769px) {
     font-size: 14px;
     padding: 10px 20px;
+  }
+}
+
+@media (hover: hover) {
+  .lightbox-closer {
+    &:hover {
+      &::after,
+      &::before {
+        width: 34px;
+        left: 8px;
+      }
+    }
+  }
+  .lightbox-left-arrow,
+  .lightbox-right-arrow {
+    &:hover {
+      opacity: 1;
+    }
   }
 }
