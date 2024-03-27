@@ -76,6 +76,7 @@ class LightboxGallery implements Lightbox {
         isPrevLightboxCaption = true;
         lightboxCaption.classList.remove(`${lightboxCaptionClass}--show`);
       }
+      lightboxCaption.innerText = "";
       lightboxImage.style.opacity = "0";
       lightboxImage.src = currentImg.dataset.src;
       let parentElementWidth: number | undefined;
@@ -104,11 +105,6 @@ class LightboxGallery implements Lightbox {
           clearTimeout(timeoutId);
         }, 100);
         const secondTimeoutId = setTimeout(() => {
-          lightboxLoader.classList.add(lightboxHiddenClass);
-          lightboxImage.classList.add(`${lightboxViewerImageClass}--show`);
-          lightboxImage.style.opacity = "1";
-          lightboxImage.style.width = "auto";
-          lightboxImage.style.height = "auto";
           if (currentImg.dataset.caption) {
             lightboxCaption.innerText =
               currentImg.dataset.caption.length > 100
@@ -117,13 +113,28 @@ class LightboxGallery implements Lightbox {
             if (isPrevLightboxCaption) {
               lightboxCaption.classList.add(`${lightboxCaptionClass}--show`);
             }
+          } else {
+            if (
+              lightboxCaption.classList.contains(
+                `${lightboxCaptionClass}--show`
+              )
+            ) {
+              lightboxCaption.classList.remove(`${lightboxCaptionClass}--show`);
+            }
           }
+          lightboxLoader.classList.add(lightboxHiddenClass);
+          lightboxImage.classList.add(`${lightboxViewerImageClass}--show`);
+          lightboxImage.style.opacity = "1";
+          lightboxImage.style.width = "auto";
+          lightboxImage.style.height = "auto";
           clearTimeout(secondTimeoutId);
         }, 500);
       };
     }
     if (lightboxImage && currentImg.dataset && currentImg.dataset.alt) {
       lightboxImage.alt = currentImg.dataset.alt;
+    } else {
+      lightboxImage.alt = "";
     }
     const lightboxCounter = document.querySelector(
       `.${lightboxModalClass}-js .${lightboxCounterClass}-js`
@@ -317,8 +328,8 @@ class LightboxGallery implements Lightbox {
         const captionNodeElement =
           imageNodeElement.parentElement?.querySelector(
             `.${lightboxCaptionClass}-js`
-          );
-        if (captionNodeElement) {
+          ) as HTMLDivElement | null | undefined;
+        if (captionNodeElement && !!captionNodeElement.innerText) {
           if (
             captionNodeElement.classList.contains(
               `${lightboxCaptionClass}--show`
@@ -333,14 +344,15 @@ class LightboxGallery implements Lightbox {
         }
       }
     });
-    lightboxImageNodeElement.addEventListener("mouseenter", (e: MouseEvent) => {
+    lightboxImageNodeElement.addEventListener("mousemove", (e: MouseEvent) => {
       const imageNodeElement = e.currentTarget as HTMLImageElement;
       const captionNodeElement = imageNodeElement.parentElement?.querySelector(
         `.${lightboxCaptionClass}-js`
-      );
+      ) as HTMLDivElement | null | undefined;
       if (
         window.innerWidth > 768 &&
         captionNodeElement &&
+        !!captionNodeElement.innerText &&
         !captionNodeElement.classList.contains(`${lightboxCaptionClass}--show`)
       ) {
         captionNodeElement.classList.add(`${lightboxCaptionClass}--show`);
