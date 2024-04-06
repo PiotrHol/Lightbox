@@ -39,7 +39,6 @@ After adding the library to your project, follow these steps:
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lightbox Example</title>
     <link rel="stylesheet" href="lightbox.min.css" />
-    <script src="lightbox.min.js" defer></script>
   </head>
   <body>
     <div class="lightbox-container">
@@ -64,6 +63,7 @@ After adding the library to your project, follow these steps:
         data-caption="Additional description 3"
       />
     </div>
+    <script src="lightbox.min.js" defer></script>
   </body>
 </html>
 ```
