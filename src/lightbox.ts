@@ -10,6 +10,7 @@ const lightboxCounterClass = "lightbox-counter";
 const lightboxLeftArrowClass = "lightbox-left-arrow";
 const lightboxRightArrowClass = "lightbox-right-arrow";
 const lightboxCloserClass = "lightbox-closer";
+const lightboxStopScrollClass = "lightbox-stop-scroll";
 
 interface Lightbox {
   init: () => void;
@@ -246,6 +247,7 @@ class LightboxGallery implements Lightbox {
     );
     lightboxViewer.appendChild(lightboxImageCaption);
     lightboxTemplate.appendChild(lightboxViewer);
+    document.body.classList.add(lightboxStopScrollClass);
     document.body.appendChild(lightboxTemplate);
     const firstTimeoutId = setTimeout(() => {
       const lightboxModalNode = document.querySelector(
@@ -425,6 +427,7 @@ class LightboxGallery implements Lightbox {
       document.removeEventListener("keydown", this.keyEventHandler);
       const closerTimeoutId = setTimeout(() => {
         lightboxModalElement?.parentElement?.removeChild(lightboxModalElement);
+        document.body.classList.remove(lightboxStopScrollClass);
         clearTimeout(closerTimeoutId);
       }, 700);
     }
