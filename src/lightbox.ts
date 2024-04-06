@@ -423,14 +423,6 @@ class LightboxGallery implements Lightbox {
         ligthboxCounterElement.classList.add(`${lightboxCounterClass}-hide`);
       }
       document.removeEventListener("keydown", this.keyEventHandler);
-      ligthboxViewerElement.removeEventListener(
-        "touchstart",
-        this.touchStartEventHandler
-      );
-      ligthboxViewerElement.removeEventListener(
-        "touchend",
-        this.touchEndEventHandler
-      );
       const closerTimeoutId = setTimeout(() => {
         lightboxModalElement?.parentElement?.removeChild(lightboxModalElement);
         clearTimeout(closerTimeoutId);
