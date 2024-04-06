@@ -4,7 +4,7 @@ Lightbox is a minimalist library that allows you to quickly add an interactive i
 
 ## Demo
 
-<a href="https://piotrhol.github.io/Lightbox/" target="_blank">https://piotrhol.github.io/Lightbox/</a>
+<a href="https://piotrhol.github.io/Lightbox/" target="_blank">Live demo</a>
 
 ## Installation
 
