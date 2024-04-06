@@ -4,6 +4,10 @@
   display: none !important;
 }
 
+.lightbox-stop-scroll {
+  overflow: hidden;
+}
+
 .lightbox-viewer-modal {
   box-sizing: border-box;
   position: fixed;
