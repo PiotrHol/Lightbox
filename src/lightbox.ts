@@ -449,9 +449,9 @@ class LightboxGallery implements Lightbox {
 
   touchEndEventHandler = (event: TouchEvent) => {
     const touchEndCoordinatesX = event.changedTouches[0].clientX;
-    if (touchEndCoordinatesX > this.touchCoordinatesX + 30) {
+    if (touchEndCoordinatesX > this.touchCoordinatesX + 60) {
       this.changeCurrentImage("prev");
-    } else if (touchEndCoordinatesX + 30 < this.touchCoordinatesX) {
+    } else if (touchEndCoordinatesX + 60 < this.touchCoordinatesX) {
       this.changeCurrentImage("next");
     }
   };
